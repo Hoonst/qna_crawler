@@ -22,7 +22,7 @@ co = webdriver.ChromeOptions()
 co.add_argument('/Users/yoonhoonsang/Desktop/internet_lecture/qna_crawler/chromedriver')
 co.add_argument("log-level=3")
 co.add_argument("headless")
-co.add_argument('user-agent=%s'.format(ua.random))
+co.add_argument(f'user-agent={ua.random}')
 co.add_argument("lang=ko_KR")
 
 
@@ -92,13 +92,13 @@ class ETOOSSpider(scrapy.Spider):
 
         while running:
             try:
-                co.add_argument('user-agent=%s'.format(ua.random))
+                co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
 
-                base_url = 'https://www.etoos.com/teacher/board/sub04_math/board_list.asp?teacher_id=200386&selSearchType=&txtSearchWD=&BOARD_ID=2007&QUST_TYPE_CD=&GOOD_QUST_YN=&MOV_YN=&MEM_YN=&NTView=&page=%s'.format(str(page))
+                base_url = f'https://www.etoos.com/teacher/board/sub04_math/board_list.asp?teacher_id=200386&selSearchType=&txtSearchWD=&BOARD_ID=2007&QUST_TYPE_CD=&GOOD_QUST_YN=&MOV_YN=&MEM_YN=&NTView=&page={str(page)}'
 
                 self.browser.get(base_url)
-                print('Online to %s'.format(base_url))
+                print(f'Accessing {base_url}')
 
                 title = WebDriverWait(self.browser, 10) \
                                         .until(EC.presence_of_element_located((By.CSS_SELECTOR, "table.subcomm_tbl_board")))
@@ -109,10 +109,10 @@ class ETOOSSpider(scrapy.Spider):
 
                 for row in rows:
                     text = row.text.split()
-                    print('row_sample: %s'.format(text))
+                    print(f'row_sample: {text}')
 
                     date_value, writer = text[-1], text[-2]
-                    print('date_value: %s'.format(date_value))
+                    print(f'date_value: {date_value}')
 
 
                     if len(date_value) == 10:
@@ -130,7 +130,7 @@ class ETOOSSpider(scrapy.Spider):
                         if date_value <= self.start and date_value >= self.till:
                             if writer not in ['연구실', '선생님', '작성자']:
                                 date_qna_dic[date_value] += 1
-#                                 print(f'{date_value}:{date_qna_dic[date_value]}')
+                                print(f'{date_value}:{date_qna_dic[date_value]}')
 
                         else:
                             print('out of date-range')
@@ -138,14 +138,12 @@ class ETOOSSpider(scrapy.Spider):
                             break
 
                 page += 1
-                print('page %s'.format(page))
+                print(f'page {page}')
 
             except Exception as exp:
                 print('Error occurred!!')
                 print(exp)
                 break
-
-
 
         for date in date_qna_dic:
             item = QnaCrawlerItem()
@@ -178,15 +176,15 @@ class MegaSpider(scrapy.Spider):
 
         while running:
             try:
-                co.add_argument('user-agent=%s'.format(ua.random))
+                co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
-#                 print(f'Current Page {page}')
+                print(f'Current Page {page}')
 
-                base_url = 'http://www.megastudy.net/teacher_v2/bbs/bbs_list_ax.asp?tec_cd=rimbaud666&tec_nm=%uC870%uC815%uC2DD&tec_type=1&brd_cd=784&brd_tbl=MS_BRD_TEC784&brd_kbn=qnabbs&dom_cd=5&LeftMenuCd=3&LeftSubCd=1&HomeCd=134&page=%s&chr_cd=&sub_nm=&ans_yn=&smode=1&sword=&TmpFlg=0.24915805251066403'.format(str(page))
+                base_url = f'http://www.megastudy.net/teacher_v2/bbs/bbs_list_ax.asp?tec_cd=rimbaud666&tec_nm=%uC870%uC815%uC2DD&tec_type=1&brd_cd=784&brd_tbl=MS_BRD_TEC784&brd_kbn=qnabbs&dom_cd=5&LeftMenuCd=3&LeftSubCd=1&HomeCd=134&page={str(page)}&chr_cd=&sub_nm=&ans_yn=&smode=1&sword=&TmpFlg=0.24915805251066403'
 
                 self.browser.get(base_url)
 
-                print('Online to %s'.format(base_url))
+                print(f'Accessing {base_url}')
 
                 title = WebDriverWait(self.browser, 10) \
                                         .until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.table_list > table.commonBoardList > tbody > tr.top")))
@@ -198,10 +196,10 @@ class MegaSpider(scrapy.Spider):
                 for row in rows:
                     text = row.text.split()
                     if len(text) > 5:
-                        print('row_sample: %s'.format(text))
+                        print(f'row_sample: {text}')
 
                         date_value = text[-2]
-                        print('date_value: %s'.format(date_value))
+                        print(f'date_value: {date_value}')
 
                         if len(date_value) == 10:
 
@@ -216,7 +214,7 @@ class MegaSpider(scrapy.Spider):
 
                             if date_value <= self.start and date_value >= self.till:
                                 date_qna_dic[date_value] += 1
-#                                 print(f'{date_value}=>{date_qna_dic[date_value]}')
+                                print(f'{date_value}=>{date_qna_dic[date_value]}')
 
                             else:
                                 print('out of date-range')
@@ -224,7 +222,7 @@ class MegaSpider(scrapy.Spider):
                                 break
 
                 page += 1
-                print('page %s'.format(page))
+                print(f'page {page}')
 
             except Exception as exp:
                 print('Error occurred!!')
@@ -263,13 +261,14 @@ class SkySpider(scrapy.Spider):
 
         while running:
             try:
-                co.add_argument('user-agent=%s'.format(ua.random))
+                co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
 
-                base_url = 'https://skyedu.conects.com/teachers/teacher_qna/?t_id=jhc01&cat1=1&page=%s'.format(str(page))
+                base_url = f'https://skyedu.conects.com/teachers/teacher_qna/?t_id=jhc01&cat1=1&page={str(page)}'
 
                 self.browser.get(base_url)
-#                 print(f'Online to {base_url}')
+                print(f'Accessing {base_url}')
+
 
                 title = WebDriverWait(self.browser, 10) \
                                         .until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.board-list > table")))
@@ -280,10 +279,10 @@ class SkySpider(scrapy.Spider):
 
                 for row in rows:
                     text = row.text.split()
-                    print('row_sample: %s'.format(text))
+                    print(f'row_sample: {text}'
 
                     date_value, writer = text[-1], text[-2]
-                    print('date_value: %s'.format(date_value))
+                    print(f'date_value: {date_value}'
 
                     if len(date_value) == 10:
                         print(date_value)
@@ -299,7 +298,7 @@ class SkySpider(scrapy.Spider):
 
                         if date_value <= self.start and date_value >= self.till:
                             date_qna_dic[date_value] += 1
-#                             print(f'{date_value}:{date_qna_dic[date_value]}')
+                            print(f'{date_value}:{date_qna_dic[date_value]}')
 
                         else:
                             print('out of date-range')
@@ -307,7 +306,7 @@ class SkySpider(scrapy.Spider):
                             break
 
                 page += 1
-                print('page %s'.format(page))
+                print(f'page {page}')
 
             except Exception as exp:
                 print('Error occurred!!')
@@ -344,15 +343,15 @@ class MiMacSpider(scrapy.Spider):
 
         while running:
             try:
-                co.add_argument('user-agent=%s'.format(ua.random))
+                co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
 
-                base_url = 'http://www.mimacstudy.com/tcher/studyQna/getStudyQnaList.ds?tcd=531&currPage=%s'.format(str(page))
+                base_url = f'http://www.mimacstudy.com/tcher/studyQna/getStudyQnaList.ds?tcd=531&currPage={str(page)}')
 
                 self.browser.implicitly_wait(5)
                 self.browser.get(base_url)
 
-                print('Online to %s'.format(base_url))
+                print(f'Accessing {base_url}')
                 # get the rows of table
                 rows = self.browser.find_elements_by_tag_name('tr')
                 # rows[:3] consists notices
@@ -362,7 +361,7 @@ class MiMacSpider(scrapy.Spider):
                 for row in rows:
                     # text is list, consisted by row data
                     text = row.text.split()
-                    print('row_sample: %s'.format(text))
+                    print(f'row_sample: {text}')
                     if len(text) > 5 :
                         date_value = text[-2]
                         writer = text[-1]
@@ -388,7 +387,7 @@ class MiMacSpider(scrapy.Spider):
                                 break
 
                 page += 1
-                print('page %s'.format(page))
+                print(f'page {page}')
 
             except Exception as exp:
                 print('Error occurred!!')
