@@ -43,6 +43,7 @@ def get_proxies(co=co):
 
 ALL_PROXIES = get_proxies()
 
+
 def proxy_driver(PROXIES, co=co):
     prox = Proxy()
 
@@ -94,20 +95,17 @@ class ETOOSSpider(scrapy.Spider):
         while running:
             try:
                 co.add_argument(f'user-agent={ua.random}')
-<<<<<<< HEAD
+
                 self.browser = webdriver.Chrome(chrome_options = co)
-=======
                 self.browser = webdriver.Chrome(executable_path='/home/yoonhs19933/qna_crawler/chromedriver', chrome_options = co)
->>>>>>> a3c1a71cd6378ab03b0b1050aff5824c3c3abe5b
 
                 base_url = f'https://www.etoos.com/teacher/board/sub04_math/board_list.asp?teacher_id=200386&selSearchType=&txtSearchWD=&BOARD_ID=2007&QUST_TYPE_CD=&GOOD_QUST_YN=&MOV_YN=&MEM_YN=&NTView=&page={str(page)}'
 
                 self.browser.get(base_url)
-<<<<<<< HEAD
+
                 print(f'Accessing {base_url}')
-=======
+
                 print(f'Online to {base_url}')
->>>>>>> a3c1a71cd6378ab03b0b1050aff5824c3c3abe5b
 
                 title = WebDriverWait(self.browser, 10) \
                                         .until(EC.presence_of_element_located((By.CSS_SELECTOR, "table.subcomm_tbl_board")))
@@ -185,15 +183,12 @@ class MegaSpider(scrapy.Spider):
 
         while running:
             try:
-<<<<<<< HEAD
                 co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
                 print(f'Current Page {page}')
-=======
                 co.add_argument('user-agent=%s'.format(ua.random))
                 self.browser = webdriver.Chrome(executable_path='/home/yoonhs19933/qna_crawler/chromedriver', chrome_options = co)
 #                 print(f'Current Page {page}')
->>>>>>> a3c1a71cd6378ab03b0b1050aff5824c3c3abe5b
 
                 base_url = f'http://www.megastudy.net/teacher_v2/bbs/bbs_list_ax.asp?tec_cd=rimbaud666&tec_nm=%uC870%uC815%uC2DD&tec_type=1&brd_cd=784&brd_tbl=MS_BRD_TEC784&brd_kbn=qnabbs&dom_cd=5&LeftMenuCd=3&LeftSubCd=1&HomeCd=134&page={str(page)}&chr_cd=&sub_nm=&ans_yn=&smode=1&sword=&TmpFlg=0.24915805251066403'
 
@@ -276,13 +271,10 @@ class SkySpider(scrapy.Spider):
 
         while running:
             try:
-<<<<<<< HEAD
                 co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
-=======
                 co.add_argument('user-agent=%s'.format(ua.random))
                 self.browser = webdriver.Chrome(executable_path='/home/yoonhs19933/qna_crawler/chromedriver', chrome_options = co)
->>>>>>> a3c1a71cd6378ab03b0b1050aff5824c3c3abe5b
 
                 base_url = f'https://skyedu.conects.com/teachers/teacher_qna/?t_id=jhc01&cat1=1&page={str(page)}'
 
@@ -299,10 +291,10 @@ class SkySpider(scrapy.Spider):
 
                 for row in rows:
                     text = row.text.split()
-                    print(f'row_sample: {text}'
+                    print(f'row_sample: {text}')
 
                     date_value, writer = text[-1], text[-2]
-                    print(f'date_value: {date_value}'
+                    print(f'date_value: {date_value}')
 
                     if len(date_value) == 10:
                         print(date_value)
@@ -363,15 +355,12 @@ class MiMacSpider(scrapy.Spider):
 
         while running:
             try:
-<<<<<<< HEAD
                 co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
-=======
                 co.add_argument('user-agent=%s'.format(ua.random))
                 self.browser = webdriver.Chrome(executable_path='/home/yoonhs19933/qna_crawler/chromedriver', chrome_options = co)
->>>>>>> a3c1a71cd6378ab03b0b1050aff5824c3c3abe5b
 
-                base_url = f'http://www.mimacstudy.com/tcher/studyQna/getStudyQnaList.ds?tcd=531&currPage={str(page)}')
+                base_url = f'http://www.mimacstudy.com/tcher/studyQna/getStudyQnaList.ds?tcd=531&currPage={str(page)}'
 
                 self.browser.implicitly_wait(5)
                 self.browser.get(base_url)
