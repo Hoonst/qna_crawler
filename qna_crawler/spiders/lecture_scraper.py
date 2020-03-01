@@ -1,3 +1,4 @@
+################################
 import scrapy
 from scrapy.selector import Selector
 from qna_crawler.items import QnaCrawlerItem
@@ -17,6 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 import chromedriver_binary
+################################
 
 ua = UserAgent()
 co = webdriver.ChromeOptions()
@@ -105,8 +107,6 @@ class ETOOSSpider(scrapy.Spider):
 
                 print(f'Accessing {base_url}')
 
-                print(f'Online to {base_url}')
-
                 title = WebDriverWait(self.browser, 10) \
                                         .until(EC.presence_of_element_located((By.CSS_SELECTOR, "table.subcomm_tbl_board")))
                 print('table element poped up')
@@ -138,7 +138,6 @@ class ETOOSSpider(scrapy.Spider):
                             if writer not in ['연구실', '선생님', '작성자']:
                                 date_qna_dic[date_value] += 1
                                 print(f'{date_value}:{date_qna_dic[date_value]}')
-
                         else:
                             print('out of date-range')
                             running = False
@@ -186,7 +185,7 @@ class MegaSpider(scrapy.Spider):
                 co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(chrome_options = co)
                 print(f'Current Page {page}')
-                co.add_argument('user-agent=%s'.format(ua.random))
+                co.add_argument(f'user-agent={ua.random}')
                 self.browser = webdriver.Chrome(executable_path='/home/yoonhs19933/qna_crawler/chromedriver', chrome_options = co)
 #                 print(f'Current Page {page}')
 

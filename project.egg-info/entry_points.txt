@@ -1,3 +1,0 @@
-[scrapy]
-settings = qna_crawler.settings
-
