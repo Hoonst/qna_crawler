@@ -22,7 +22,7 @@ PyHamcrest==2.0.1
 pyOpenSSL==19.1.0
 queuelib==1.5.0
 requests==2.23.0
-Scrapy==1.8.0
+Scrapy==2.6.2
 scrapy-rotating-proxies==0.6.2
 Scrapy-UserAgents==0.0.1
 scrapyrt==0.11.0
